@@ -1,0 +1,78 @@
+info: Oct-17-2022 17:00:00: 	Server started and running on http://localhost:3000
+info: Oct-17-2022 17:00:30: 	Server started and running on http://localhost:3000
+info: Oct-17-2022 17:00:49: 	Server Sent A Hello World!
+error: Oct-17-2022 17:00:50: 	400 || Not Found - /favicon.ico - GET - ::1
+info: Oct-17-2022 17:06:40: 	Server started and running on http://localhost:3000
+info: Oct-17-2022 17:06:59: 	Server Sent A Hello World!
+info: Oct-17-2022 17:07:45: 	Server Sent A Hello World!
+info: Oct-17-2022 17:07:55: 	Server started and running on http://localhost:3000
+info: Oct-17-2022 17:07:57: 	Server Sent A Hello World!
+info: Oct-17-2022 17:08:34: 	Server started and running on http://localhost:3000
+info: Oct-17-2022 17:08:39: 	Server started and running on http://localhost:3000
+info: Oct-17-2022 17:08:41: 	Server Sent A Hello World!
+info: Oct-17-2022 21:45:01: 	Server started and running on http://localhost:3000
+info: Oct-18-2022 18:54:55: 	Server started and running on http://localhost:3000
+info: Oct-18-2022 19:18:11: 	Server started and running on http://localhost:3000
+error: Oct-18-2022 19:18:40: 	500 - Internal Server Error - Cannot find module './TwitchBotDatabase.db'
+Require stack:
+- c:\Users\burni\Desktop\Programming Projects\HTML_CSS_CHEAT_SHEET\main.js - / - GET - ::ffff:127.0.0.1
+error: Oct-18-2022 19:18:40: 	400 || Not Found - /favicon.ico - GET - ::ffff:127.0.0.1
+error: Oct-18-2022 19:18:49: 	500 - Internal Server Error - db.run is not a function - / - GET - ::1
+error: Oct-18-2022 19:18:49: 	400 || Not Found - /favicon.ico - GET - ::1
+info: Oct-18-2022 19:19:10: 	Server started and running on http://localhost:3000
+info: Oct-18-2022 20:30:26: 	Server started and running on http://localhost:3000
+info: Oct-18-2022 20:32:21: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 13:08:33: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 13:08:33: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 13:09:01: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 13:09:01: 	Connected to the TwitchBotDatabase database.
+error: Oct-25-2022 13:09:22: 	500 - Internal Server Error - "p".html is not a function - / - GET - ::1
+error: Oct-25-2022 13:09:22: 	400 || Not Found - /favicon.ico - GET - ::1
+info: Oct-25-2022 13:41:19: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 13:41:19: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 13:41:23: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 13:41:23: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 13:45:19: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 13:45:19: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 15:57:48: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 15:57:48: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 15:58:10: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 15:58:10: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 15:59:30: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 15:59:30: 	Connected to the TwitchBotDatabase database.
+error: Oct-25-2022 16:00:19: 	500 - Internal Server Error - "p".html is not a function - / - GET - ::1
+error: Oct-25-2022 16:01:10: 	500 - Internal Server Error - "p".html is not a function - / - GET - ::1
+error: Oct-25-2022 16:01:12: 	500 - Internal Server Error - "p".html is not a function - / - GET - ::1
+info: Oct-25-2022 16:02:17: 	Server started and running on http://localhost:3000
+info: Oct-25-2022 16:02:17: 	Connected to the TwitchBotDatabase database.
+info: Oct-25-2022 16:02:23: 	Successfully pushed HTML to the client
+info: Oct-26-2022 01:07:27: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 01:07:27: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:31:32: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:31:32: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:31:34: 	Successfully pushed HTML to the client
+info: Oct-26-2022 19:32:24: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:32:24: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:32:32: 	Successfully pushed HTML to the client
+info: Oct-26-2022 19:33:50: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:33:50: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:33:56: 	Successfully pushed HTML to the client
+error: Oct-26-2022 19:33:56: 	400 || Not Found - /favicon.ico - GET - ::1
+info: Oct-26-2022 19:34:02: 	Successfully pushed HTML to the client
+info: Oct-26-2022 19:36:08: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:36:08: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:36:11: 	Successfully pushed Data to user
+info: Oct-26-2022 19:37:20: 	Successfully pushed Data to user
+info: Oct-26-2022 19:37:23: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:37:23: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:37:28: 	Successfully pushed Data to user
+error: Oct-26-2022 19:38:13: 	400 || Not Found - /main.html - GET - ::1
+info: Oct-26-2022 19:38:19: 	Successfully pushed Data to user
+info: Oct-26-2022 19:39:13: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:39:13: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:39:27: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:39:27: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:39:27: 	Successfully pushed Data to user
+info: Oct-26-2022 19:40:07: 	Server started and running on http://localhost:3000
+info: Oct-26-2022 19:40:07: 	Connected to the TwitchBotDatabase database.
+info: Oct-26-2022 19:40:12: 	Successfully pushed Data to user
