@@ -7,8 +7,8 @@ const axios = require('axios'); // Axios module (HTTP requests)
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
 
-const clientId = 'q8zrgvu9zd1um07dguictvr6r1r0dh';
-const clientSecret = 'nj3j6qxnerqjbsu8uovprjvptigbf8';
+const clientId = '';
+const clientSecret = '';
 const redirectUri = 'http://localhost';
 const scope = 'channel:read:subscriptions';
 
