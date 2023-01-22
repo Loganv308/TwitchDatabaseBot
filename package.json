@@ -1,8 +1,12 @@
 {
   "dependencies": {
     "express": "^4.18.2",
+    "gapi": "^0.0.3",
     "jquery": "^3.6.1",
-    "php": "^1.0.2",
+    "node-fetch": "^3.3.0",
+    "passport": "^0.6.0",
+    "passport-oauth2": "^1.6.1",
+    "sentiment": "^5.0.2",
     "sqlite3": "^5.1.2",
     "tmi.js": "^1.8.5",
     "winston": "^3.8.2",
