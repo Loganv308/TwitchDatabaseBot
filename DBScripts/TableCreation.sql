@@ -1,4 +1,4 @@
-CREATE TABLE WinstonTest
+CREATE TABLE TwitchChat
  (
 	USER_ID INT NOT NULL, 
  

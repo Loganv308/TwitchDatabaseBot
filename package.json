@@ -1,15 +1,25 @@
 {
   "dependencies": {
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "gapi": "^0.0.3",
     "jquery": "^3.6.1",
     "node-fetch": "^3.3.0",
     "passport": "^0.6.0",
     "passport-oauth2": "^1.6.1",
+    "puppeteer": "^19.8.0",
+    "puppeteer-recorder": "^1.0.7",
     "sentiment": "^5.0.2",
     "sqlite3": "^5.1.2",
     "tmi.js": "^1.8.5",
     "winston": "^3.8.2",
     "winston-better-sqlite3": "^1.0.4"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1"
+  },
+  "type": "module"
 }

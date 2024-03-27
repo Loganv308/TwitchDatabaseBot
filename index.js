@@ -1,18 +1,22 @@
-const tmi = require('tmi.js'); // This line is importing the tmi module. Short for "Twitch Messaging interface"
-const sqlite3 = require('sqlite3').verbose(); // Sqlite3 connection (Database for those who don't know...)
-const winston = require('winston'); // Winston module (Logger)
-const db2 = "TwitchBotDatabase.sqlite"; // DB file specification
-const fs = require('fs'); // File system module
-const axios = require('axios'); // Axios module (HTTP requests)
-const passport = require('passport');
-const OAuth2Strategy = require('passport-oauth2').Strategy;
+import { Client } from 'tmi.js'; // This line is importing the tmi module. Short for "Twitch Messaging interface"
+import { createLogger, format as _format, transports as _transports } from 'winston'; // Winston module (Logger)
+import { stat } from 'fs'; // File system module
+import axios from 'axios'; // Axios module (HTTP requests)
+import increment from "./counter.js"; // Counter module
+import sqlite3 from "sqlite3"; // Sqlite3 connection (Database for those who don't know...)
+// This lines is required for the script. It is used to load the .env file.
+import dotenv from 'dotenv'
+dotenv.config()
 
-const clientId = 'q8zrgvu9zd1um07dguictvr6r1r0dh';
-const clientSecret = 'nj3j6qxnerqjbsu8uovprjvptigbf8';
-const redirectUri = 'http://localhost';
+const db2 = 'TwitchBotDatabase.sqlite'; // DB file specification
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+
+// This is the redirect URI. It is used to specify where the user will be redirected after the OAuth flow.
+const redirectUri = 'http://localhost/8080';
+
+// This is the scope of the bot. It is used to specify what the bot can do.
 const scope = 'channel:read:subscriptions';
-
-const counter = createCounter();
 
 async function getOAuthToken() {
     const response = await axios({
@@ -34,19 +38,27 @@ async function getTopChannels() {
       method: 'get',
       headers: {
           'Authorization': `Bearer ${token}`,
-          'Client-ID': 'q8zrgvu9zd1um07dguictvr6r1r0dh',
+          'Client-ID': process.env.CLIENT_ID,
       },
       params: {
           first: 10
       }
   })
   .then(response => {
-      const viewerCount = response.data.data['0'].viewer_count;
-      const userName = response.data.data['0'].user_name;
-      console.log("Top channel:", userName, "with", viewerCount, "viewers" );
+    try{
+      for(let x in response.data.data[0].user_name){
+        const viewerCount = response.data.data[x].viewer_count;
+        const userName = response.data.data[x].user_name;
+        console.log("Top channel #:", increment(), userName, "with", viewerCount, "viewers" );
+      }
+    }
+    catch(err)
+    {
+      console.log(err);
+    }
+    
       
       return response.data.data;
-
   })
   .catch(error => { console.log(error); });
 }
@@ -65,7 +77,7 @@ function errorMessage(err)
 // Syntax: 
 //    logger.error('Test Error')
 //    logger.warn('Test warning')
-const logger = winston.createLogger({
+const logger = createLogger({
   levels: 
   {
       'error': 0,
@@ -80,14 +92,14 @@ const logger = winston.createLogger({
       'info': 'green',
       'debug': 'blue',
   },
-  format: winston.format.json(),
+  format: _format.json(),
   transports: 
   [
-    new winston.transports.Console(),  
-    new winston.transports.File({ filename: 'logs/error.log', level:'error', colorize: true}),
-    new winston.transports.File({ filename: 'logs/activity/activity.log', level:'info', colorize: true}),
-    new winston.transports.File({ filename: 'logs/activity/warn.log', level:'warn', colorize: true}),
-    new winston.transports.File({ filename: 'logs/activity/debug.log', level:'debug', colorize: true})
+    new _transports.Console(),
+    new _transports.File({ filename: 'logs/activity/error.log', level:'error', colorize: true}),
+    new _transports.File({ filename: 'logs/activity/activity.log', level:'info', colorize: true}),
+    new _transports.File({ filename: 'logs/activity/warn.log', level:'warn', colorize: true}),
+    new _transports.File({ filename: 'logs/activity/debug.log', level:'debug', colorize: true})
   ]
 });
 
@@ -99,7 +111,7 @@ let db = new sqlite3.Database(db2, sqlite3.OPEN_READWRITE, (err) =>
 });
 
 // Client connecting to Twitch. You can specify the channel or channels you want to connect to in the code below. 
-const client = new tmi.Client(
+const client = new Client(
     {
   connection: 
   {
@@ -108,16 +120,17 @@ const client = new tmi.Client(
   },
   channels: [ 
     // 'hasanabi'
-    'moistcr1tikal'
+    // 'moistcr1tikal'
     // 'paymoneywubby',
     // 'adinross',
     // 'mizkif',
-    // 'xqc'
+    'xqc'
     // 'summit1g',
     // 'lirik',
     // 'shroud',
     // 'pokimane',
     // 'sodapoppin'
+    // 'schlatt'
    ]
 });
 
@@ -128,7 +141,7 @@ const connectToTwitch = () => {
 }
 
 const processFile = () => { // This function is used to check the size of the database file. If it gets too big, it will exit the program.
-  fs.stat("TwitchBotDatabase.sqlite", (err, stats) => {
+  stat("TwitchBotDatabase.sqlite", (err, stats) => {
     if (err) {
       console.error(err);
       return;
@@ -143,47 +156,31 @@ const processFile = () => { // This function is used to check the size of the da
   });
 }
 
-function createCounter() {
-  let count = 0;
-  return function incrementCount() {
-    count++;
-    return count;
-  };
-}
 setInterval(processFile, 10000);
 
 // Everytime there is a message in the twitch chat, the following lines will trigger. 
 // This is mostly just writing stuff to the database and formatting information correctly.
-client.on('message', (channel, tags, message, self) => 
+client.on('message', (channel, tags, message) => 
 {
-  chatMessage= message = message.replace(/'/g, "''");
+  const chatMessage = message.replace(/'/g, "''");
+  const formattedDate = new Date().toLocaleString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+  const userID = tags['user-id']; // ID of the user, used for the database.
+  const twitchName = tags['display-name']; // Name of the user, used for the database.
+  const subscriber = tags['subscriber']; // ID of the user, used for the database.
   
-  d = new Date().toLocaleString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
-  
-  userID = tags['user-id']; // ID of the user, used for the database.
-  
-  twitchName = tags['display-name']; // Name of the user, used for the database.
-  
-  subscriber = tags['subscriber']; // ID of the user, used for the database.
-  
-  randID = Math.floor(Math.random() * 10_000_000_000); // Random ID for the database.
+  let randID = Math.floor(Math.random() * 10_000_000_000); // Random ID for the database.
 
-  named_channel = channel.replace('#', '').toUpperCase(); // Name of the channel, without the #.
+  const named_channel = channel.replace('#', '').toUpperCase(); // Name of the channel, without the #.
 
-  if (tags['subscriber'] == '1') {
-    console.log(`(${counter()})(${named_channel})(${tags['user-id']})(SUB) ${tags['display-name']}: ${chatMessage}`); // If the user is a subscriber, it will log that to the database.
-    
-  }
-  else {
-    console.log(`(${counter()})(${named_channel})(${tags['user-id']}) ${tags['display-name']}: ${chatMessage}`); // If the user is not a subscriber, it will log that to the database.
-    
+  if (subscriber == '1') {
+    console.log(`(${increment()})(${named_channel})(${tags['user-id']})(SUB) ${tags['display-name']}: ${chatMessage}`); // If the user is a subscriber, it will log that to the database.
+  } else {
+    console.log(`(${increment()})(${named_channel})(${tags['user-id']}) ${tags['display-name']}: ${chatMessage}`); // If the user is not a subscriber, it will log that to the database.
   }
 
-  db.run(`INSERT INTO TwitchChatDatabase(FAKE_ID, TIMESTAMP, USER_ACCID, TWITCH_NAME, CHAT_MESSAGE, CHANNEL) VALUES(?, ?, ?, ?, ?, ?)`, [randID, d, userID, twitchName, chatMessage, named_channel], errorMessage); 
+  db.run(`INSERT INTO TwitchChatDatabase(FAKE_ID, TIMESTAMP, USER_ACCID, TWITCH_NAME, CHAT_MESSAGE, CHANNEL) VALUES(?, ?, ?, ?, ?, ?)`, [randID, formattedDate, userID, twitchName, chatMessage, named_channel], errorMessage); 
 });
 
 getTopChannels()
 connectToTwitch();
 processFile();
-
-
