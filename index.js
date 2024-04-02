@@ -3,12 +3,14 @@ import { createLogger, format as _format, transports as _transports } from 'wins
 import { stat } from 'fs'; // File system module
 import axios from 'axios'; // Axios module (HTTP requests)
 import increment from "./counter.js"; // Counter module
-import sqlite3 from "sqlite3"; // Sqlite3 connection (Database for those who don't know...)
+
 // This lines is required for the script. It is used to load the .env file.
 import dotenv from 'dotenv'
 dotenv.config()
 
-const db2 = 'TwitchBotDatabase.sqlite'; // DB file specification
+import { DatabaseUtil } from './database.js'; // Database module
+
+const db = new DatabaseUtil("ChatDatabase"); // Database connection
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
@@ -63,16 +65,6 @@ async function getTopChannels() {
   .catch(error => { console.log(error); });
 }
 
-// Custom function for logging
-function errorMessage(err)
-{
-  if (err) 
-  {
-    return console.log(err.message);
-    
-  }
-};
-
 // The line below is the logger creation
 // Syntax: 
 //    logger.error('Test Error')
@@ -103,12 +95,6 @@ const logger = createLogger({
   ]
 });
 
-// Database connection module
-// Will log errors to the error.log file and the console. 
-let db = new sqlite3.Database(db2, sqlite3.OPEN_READWRITE, (err) => 
-{
-    console.log('Connected to the TwitchBotDatabase.');
-});
 
 // Client connecting to Twitch. You can specify the channel or channels you want to connect to in the code below. 
 const client = new Client(
@@ -121,7 +107,8 @@ const client = new Client(
   channels: [ 
     // 'hasanabi'
     // 'moistcr1tikal'
-    // 'paymoneywubby',
+    'paymoneywubby',
+    'moonmoon',
     // 'adinross',
     // 'mizkif',
     'xqc'
@@ -157,7 +144,6 @@ const processFile = () => { // This function is used to check the size of the da
 }
 
 setInterval(processFile, 10000);
-
 // Everytime there is a message in the twitch chat, the following lines will trigger. 
 // This is mostly just writing stuff to the database and formatting information correctly.
 client.on('message', (channel, tags, message) => 
@@ -167,10 +153,11 @@ client.on('message', (channel, tags, message) =>
   const userID = tags['user-id']; // ID of the user, used for the database.
   const twitchName = tags['display-name']; // Name of the user, used for the database.
   const subscriber = tags['subscriber']; // ID of the user, used for the database.
-  
   let randID = Math.floor(Math.random() * 10_000_000_000); // Random ID for the database.
 
   const named_channel = channel.replace('#', '').toUpperCase(); // Name of the channel, without the #.
+
+  db.insertIntoDatabase(randID, formattedDate, userID, twitchName, chatMessage, named_channel);
 
   if (subscriber == '1') {
     console.log(`(${increment()})(${named_channel})(${tags['user-id']})(SUB) ${tags['display-name']}: ${chatMessage}`); // If the user is a subscriber, it will log that to the database.
@@ -178,7 +165,7 @@ client.on('message', (channel, tags, message) =>
     console.log(`(${increment()})(${named_channel})(${tags['user-id']}) ${tags['display-name']}: ${chatMessage}`); // If the user is not a subscriber, it will log that to the database.
   }
 
-  db.run(`INSERT INTO TwitchChatDatabase(FAKE_ID, TIMESTAMP, USER_ACCID, TWITCH_NAME, CHAT_MESSAGE, CHANNEL) VALUES(?, ?, ?, ?, ?, ?)`, [randID, formattedDate, userID, twitchName, chatMessage, named_channel], errorMessage); 
+   
 });
 
 getTopChannels()
