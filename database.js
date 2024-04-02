@@ -9,7 +9,7 @@ export class DatabaseUtil{
     constructor(dbName){
         this.dbName = dbName;
         this.db = null;
-        console.log('dbName inside Constructor', dbName)
+        // console.log('dbName inside Constructor', dbName)
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
         const dbPath = path.join(__dirname, 'data', `${dbName}.sqlite`);
         const dataDir = path.dirname(dbPath);
@@ -21,7 +21,7 @@ export class DatabaseUtil{
         if (fs.existsSync(dbPath)) {
             fs.unlinkSync(dbPath);
         }
-        console.log("Database Path in Constructor", dbPath)
+        // console.log("Database Path in Constructor", dbPath)
         
         this.createDatabase(dbPath);
     };
@@ -61,7 +61,7 @@ export class DatabaseUtil{
     }
 
     insertIntoDatabase(randID, formattedDate, userID, twitchName, chatMessage, named_channel){
-        console.log("this.db inside insertIntoDatabase", this.db)
+        // console.log("this.db inside insertIntoDatabase", this.db)
         this.db.run(`INSERT INTO ${this.dbName} (FAKE_ID, TIMESTAMP, USER_ACCID, TWITCH_NAME, CHAT_MESSAGE, CHANNEL) VALUES(?, ?, ?, ?, ?, ?)`, [randID, formattedDate, userID, twitchName, chatMessage, named_channel], function(err) {
             if (err) {
                 console.error("Error initializing database:", err);
@@ -69,7 +69,7 @@ export class DatabaseUtil{
             } else {
                 // FIX THIS LATER
                 
-                console.log("Data inserted successfully into", this.dbName);
+                // console.log("Data inserted successfully into", this.dbName);
             }
         });
     }
